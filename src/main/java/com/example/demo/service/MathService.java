@@ -50,6 +50,19 @@ public class MathService {
         
   }
 
+  public void UpdateCalc(long id, Answer expression){
+    Optional<Answer> calc = mathRepository.findAnswerByid(id);
+    if(calc.isPresent()){
+      expression.setId(id);
+      mathRepository.save(expression);
+    }
+    
+}
+
+  public void deleteCalc(long id){
+    mathRepository.deleteByid(id);
+  }
+
   
 
 }

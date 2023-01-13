@@ -10,9 +10,29 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.persistence.JoinColumn;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+
+class Variables_pairs{
+    private String name;
+    private Double value;
+
+    public Variables_pairs(String n_name, Double n_value){
+        this.name = n_name;
+        this.value = n_value;
+    }
+
+    public String getName(){return name;}
+    public Double getValue(){return value;}
+
+    public void setName(String n_name){name = n_name;}
+    public void setName(Double n_value){value = n_value;}
+
+}
 
 @Entity(name = "users")
 public class User {
@@ -44,6 +64,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Answer> answers;
 
+    @Transient
+    List<Variables_pairs> user_variables = new ArrayList<Variables_pairs>();
+
+    
     public User() {
     }
 

@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +18,7 @@ public class Answer {
     private double answer;
     @Column(nullable = false)
     private String calculation;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne( fetch = FetchType.LAZY)//cascade=CascadeType.PERSIST,
     private User user;
 
     public Answer(){
@@ -38,6 +39,9 @@ public class Answer {
 
     public long getId() {
       return id;
+    }
+    public void setId(long new_id) {
+      id = new_id;
     }
   
   
