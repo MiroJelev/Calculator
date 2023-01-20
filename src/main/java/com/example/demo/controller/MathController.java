@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.List;
 import javax.script.ScriptException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,27 +44,36 @@ public class MathController {
 		return ResponseEntity.ok(mathService.calculate(calculation, user_id));
 	}
 
+    @GetMapping(value = "/getallcalc")
+    @ResponseBody
+    @PreAuthorize("hasAnyRole('CLIENT','ADMIN')")
+	public ResponseEntity<List<Answer>> getallCalc(@RequestParam(value="id", defaultValue="") long user_id){
+		return ResponseEntity.ok(mathService.getAll(user_id));
+	}
+
 
     @PostMapping(value = "/postcalc")
     @ResponseBody
     @PreAuthorize("hasAnyRole('CLIENT','ADMIN')")
-	public void PostCalc(@RequestParam(value="calculation") String calculation, @RequestParam(value="id") String user_id){
-            Answer ans = mathService.calculate(calculation, user_id);
-            mathService.addNewCalc(ans);
+	public ResponseEntity<Answer> PostCalc(@RequestParam(value="calculation") String calculation, @RequestParam(value="id") String user_id){
+        Answer ans = mathService.calculate(calculation, user_id);
+        return ResponseEntity.ok(mathService.addNewCalc(ans));
 	}
 
     @PutMapping(value = "/putcalc")
     @ResponseBody
     @PreAuthorize("hasAnyRole('CLIENT','ADMIN')")
-	public void PutCalc(@RequestParam(value="calculation") String calculation, @RequestParam(value="id") String user_id, @RequestParam(value="expid") long expr_id){
-            Answer ans = mathService.calculate(calculation, user_id);
-            mathService.UpdateCalc(expr_id, ans);
+	public ResponseEntity<Answer> PutCalc(@RequestParam(value="calculation") String calculation, @RequestParam(value="id") String user_id, @RequestParam(value="expid") long expr_id){
+        Answer ans = mathService.calculate(calculation, user_id);
+        return ResponseEntity.ok( mathService.UpdateCalc(expr_id, ans));
 	}
 
     @DeleteMapping(value = "/delcalc")
+    @ResponseBody
     @PreAuthorize("hasAnyRole('CLIENT','ADMIN')")
-    public void DeleteCalcRequest(@RequestParam(value="id") long id){
+    public String DeleteCalcRequest(@RequestParam(value="id") long id){
         mathService.deleteCalc(id);
+        return "OK";
     }
 
     
